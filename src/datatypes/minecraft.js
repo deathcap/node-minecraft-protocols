@@ -1,3 +1,5 @@
+'use strict';
+
 var nbt = require('prismarine-nbt');
 var uuid = require('node-uuid');
 

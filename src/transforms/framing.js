@@ -1,3 +1,5 @@
+'use strict';
+
 var [readVarInt, writeVarInt, sizeOfVarInt] = require("protodef").types.varint;
 var Transform = require("readable-stream").Transform;
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var net = require('net');
 var Client = require('./client');
 var states = require("./states");

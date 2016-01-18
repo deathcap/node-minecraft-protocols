@@ -1,3 +1,5 @@
+'use strict';
+
 var ursa=require("./ursa");
 var net = require('net');
 var dns = require('dns');

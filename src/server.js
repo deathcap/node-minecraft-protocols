@@ -1,3 +1,5 @@
+'use strict';
+
 var net = require('net');
 var EventEmitter = require('events').EventEmitter;
 var Client = require('./client');
