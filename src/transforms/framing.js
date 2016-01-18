@@ -39,7 +39,10 @@ class Splitter extends Transform {
     {
       this.push(this.buffer.slice(offset + size, offset + size + value));
       offset += size + value;
-      ({ value, size, error } = readVarInt(this.buffer, offset) || { error: "Not enough data" });
+      let { value2, size2, error2 } = readVarInt(this.buffer, offset) || { error: "Not enough data" };
+      value = value2;
+      size = size2;
+      error = error2;
     }
     this.buffer = this.buffer.slice(offset);
     return cb();
