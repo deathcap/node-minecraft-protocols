@@ -2,13 +2,13 @@
   "name": "minecraft-protocol",
   "version": "0.16.7-GH",
   "description": "Parse and serialize minecraft packets, plus authentication and encryption.",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/PrismarineJS/node-minecraft-protocol.git"
   },
   "scripts": {
-    "prepublish": "gulp && require-self",
+    "prepublish": "require-self",
     "test": "mocha --recursive --require intelli-espower-loader --require source-map-support/register --reporter spec"
   },
   "keywords": [
@@ -26,13 +26,9 @@
   "engines": {
     "node": ">=5"
   },
-  "browser": "browser.js",
+  "browser": "src/browser.js",
   "devDependencies": {
     "espower-loader": "^1.0.0",
-    "gulp": "^3.8.11",
-    "gulp-babel": "^5.1.0",
-    "gulp-plumber": "^1.0.1",
-    "gulp-sourcemaps": "^1.3.0",
     "intelli-espower-loader": "^1.0.0",
     "minecraft-wrap": "~0.6.5",
     "mocha": "~2.3.3",
@@ -41,7 +37,6 @@
     "source-map-support": "^0.3.2"
   },
   "dependencies": {
-    "babel-runtime": "^5.4.4",
     "buffer-equal": "0.0.1",
     "lodash.reduce": "^3.1.2",
     "minecraft-data": "^0.16.1",
