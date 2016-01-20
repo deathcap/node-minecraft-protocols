@@ -1,6 +1,8 @@
 'use strict';
 
-var [readVarInt, writeVarInt, sizeOfVarInt] = require("protodef").types.varint;
+var readVarInt = require("protodef").types.varint[0];
+var writeVarInt = require("protodef").types.varint[1];
+var sizeOfVarInt = require("protodef").types.varint[2];
 var zlib = require("zlib");
 var Transform = require("readable-stream").Transform;
 
@@ -51,7 +53,10 @@ class Decompressor extends Transform {
   }
 
   _transform(chunk, enc, cb) {
-    var { size, value, error } = readVarInt(chunk, 0);
+    var result  = readVarInt(chunk, 0);
+    var size = result.size;
+    var value = result.value;
+    var error = result.error;
     if (error)
       return cb(error);
     if (value === 0)

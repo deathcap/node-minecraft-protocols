@@ -1,6 +1,8 @@
 'use strict';
 
-var [readVarInt, writeVarInt, sizeOfVarInt] = require("protodef").types.varint;
+var readVarInt = require("protodef").types.varint[0];
+var writeVarInt = require("protodef").types.varint[1];
+var sizeOfVarInt = require("protodef").types.varint[2];
 var Transform = require("readable-stream").Transform;
 
 module.exports.createSplitter = function() {
@@ -34,15 +36,18 @@ class Splitter extends Transform {
     this.buffer = Buffer.concat([this.buffer, chunk]);
     var offset = 0;
 
-    var { value, size, error } = readVarInt(this.buffer, offset) || { error: "Not enough data" };
+    var result = readVarInt(this.buffer, offset) || { error: "Not enough data" };
+    var size = result.size;
+    var value = result.value;
+    var error = result.error;
     while (!error && this.buffer.length >= offset + size + value)
     {
       this.push(this.buffer.slice(offset + size, offset + size + value));
       offset += size + value;
-      let { value2, size2, error2 } = readVarInt(this.buffer, offset) || { error: "Not enough data" };
-      value = value2;
-      size = size2;
-      error = error2;
+      result = readVarInt(this.buffer, offset) || { error: "Not enough data" };
+      size = result.size;
+      value = result.value;
+      error = result.error;
     }
     this.buffer = this.buffer.slice(offset);
     return cb();
