@@ -38,7 +38,7 @@ function createProtocol(types,packets)
   return proto;
 }
 
-function createSerializer({ state = states.HANDSHAKING, isServer = false , version} = {})
+function createSerializer({ state = states.HANDSHAKING, isServer = false , version})
 {
   var mcData=require("minecraft-data")(version);
   var direction = !isServer ? 'toServer' : 'toClient';
@@ -48,7 +48,7 @@ function createSerializer({ state = states.HANDSHAKING, isServer = false , versi
 }
 
 function createDeserializer({ state = states.HANDSHAKING, isServer = false,
-  packetsToParse = {"packet": true}, version } = {})
+  packetsToParse = {"packet": true}, version })
 {
   var mcData=require("minecraft-data")(version);
   var direction = isServer ? "toServer" : "toClient";

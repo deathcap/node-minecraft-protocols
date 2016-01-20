@@ -13,8 +13,9 @@ module.exports.createDecompressor = function(threshold) {
 };
 
 class Compressor extends Transform {
-  constructor(compressionThreshold = -1) {
+  constructor(compressionThreshold) {
     super();
+    if (compressionThreshold === undefined) compressionThreshold = -1;
     this.compressionThreshold = compressionThreshold;
   }
 
@@ -43,8 +44,9 @@ class Compressor extends Transform {
 }
 
 class Decompressor extends Transform {
-  constructor(compressionThreshold = -1) {
+  constructor(compressionThreshold) {
     super();
+    if (compressionThreshold === undefined) compressionThreshold = -1;
     this.compressionThreshold = compressionThreshold;
   }
 
