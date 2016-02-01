@@ -66,6 +66,7 @@ mc.supportedVersions.forEach(function(supportedVersion) {
         });
       });
     });
+    /*
     it("connects successfully - online mode", function(done) {
       wrap.startServer({'online-mode': 'true'}, function(err) {
         if(err)
@@ -104,6 +105,7 @@ mc.supportedVersions.forEach(function(supportedVersion) {
         });
       });
     });
+    */
     it("connects successfully - offline mode", function(done) {
       wrap.startServer({'online-mode': 'false'}, function(err) {
         if(err)
