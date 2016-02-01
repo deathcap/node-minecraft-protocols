@@ -1,3 +1,5 @@
+'use strict';
+
 var ProtoDef = require("protodef").ProtoDef;
 var Serializer = require("protodef").Serializer;
 var Parser = require("protodef").Parser;
@@ -36,8 +38,13 @@ function createProtocol(types,packets)
   return proto;
 }
 
-function createSerializer({ state = states.HANDSHAKING, isServer = false , version} = {})
+function createSerializer(opts)
 {
+  opts = opts || {};
+  var state = opts.state !== undefined ? opts.state : states.HANDSHAKING;
+  var isServer = opts.isServer !== undefined ? opts.isServer : false;
+  var version = opts.version;
+
   var mcData=require("minecraft-data")(version);
   var direction = !isServer ? 'toServer' : 'toClient';
   var packets = mcData.protocol.states[state][direction];
@@ -45,9 +52,15 @@ function createSerializer({ state = states.HANDSHAKING, isServer = false , versi
   return new Serializer(proto,"packet");
 }
 
-function createDeserializer({ state = states.HANDSHAKING, isServer = false,
-  packetsToParse = {"packet": true}, version } = {})
+function createDeserializer(opts)
 {
+  opts = opts || {};
+  var state = opts.state !== undefined ? opts.state : states.HANDSHAKING;
+  var isServer = opts.isServer !== undefined ? opts.isServer : false;
+  var packetsToParse = opts.packetsToParse !== undefined ? packetsToParse : {"packet": true};
+  var version = opts.version;
+
+
   var mcData=require("minecraft-data")(version);
   var direction = isServer ? "toServer" : "toClient";
   var packets = mcData.protocol.states[state][direction];

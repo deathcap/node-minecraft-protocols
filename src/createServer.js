@@ -1,3 +1,5 @@
+'use strict';
+
 var ursa=require("./ursa");
 var crypto = require('crypto');
 var yggserver = require('yggdrasil').server({});

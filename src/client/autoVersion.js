@@ -13,7 +13,7 @@ function protocolVersion2MinecraftVersion(n) {
   for (var i = 0; i < minecraft_data.versions.length; ++i) {
     var version = minecraft_data.versions[i];
     if (version.version === n && version.usesNetty === usesNetty) {
-      return [version.minecraftVersion, version.majorVersion];
+      return version;
     }
   }
 
@@ -43,12 +43,12 @@ module.exports = function(client) {
     // Note that versionName is a descriptive version stirng like '1.8.9' on vailla, but other
     // servers add their own name (Spigot 1.8.8, Glowstone++ 1.8.9) so we cannot use it directly,
     // even though it is in a format accepted by minecraft-data. Instead, translate the protocol.
-    var [minecraftVersion, majorVersion] = protocolVersion2MinecraftVersion(protocolVersion);
-    client.options.version = minecraftVersion;
+    var versionInfo = protocolVersion2MinecraftVersion(protocolVersion);
+    client.options.version = versionInfo.minecraftVersion;
     client.options.protocolVersion = protocolVersion;
 
     // Reinitialize client object with new version TODO: move out of its constructor?
-    client.version = majorVersion;
+    client.version = versionInfo.majorVersion;
     client.state = states.HANDSHAKING;
 
     if (response.modinfo && response.modinfo.type === 'FML') {

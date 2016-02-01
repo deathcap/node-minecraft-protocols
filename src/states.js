@@ -1,3 +1,5 @@
+'use strict';
+
 var states = {
   "HANDSHAKING": "handshaking",
   "STATUS": "status",

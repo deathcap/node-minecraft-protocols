@@ -1,3 +1,5 @@
+'use strict';
+
 var nbt = require('prismarine-nbt');
 var UUID = require('uuid-1345');
 
@@ -70,7 +72,9 @@ function sizeOfRestBuffer(value) {
   return value.length;
 }
 
-function readEntityMetadata(buffer, offset, {type,endVal}) {
+function readEntityMetadata(buffer, offset, info) {
+  var type = info.type;
+  var endVal = info.endVal;
   var cursor = offset;
   var metadata = [];
   var item;
@@ -88,7 +92,9 @@ function readEntityMetadata(buffer, offset, {type,endVal}) {
   }
 }
 
-function writeEntityMetadata(value, buffer, offset, {type,endVal}) {
+function writeEntityMetadata(value, buffer, offset, info) {
+  var type = info.type;
+  var endVal = info.endVal;
   var self = this;
   value.forEach(function(item) {
     offset = self.write(item, buffer, offset, type, {});
@@ -97,7 +103,8 @@ function writeEntityMetadata(value, buffer, offset, {type,endVal}) {
   return offset + 1;
 }
 
-function sizeOfEntityMetadata(value, {type}) {
+function sizeOfEntityMetadata(value, info) {
+  var type = info.type;
   var size = 1;
   for(var i = 0; i < value.length; ++i) {
     size += this.sizeOf(value[i], type, {});
