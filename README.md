@@ -1,7 +1,19 @@
-# minecraft protocol
-[![NPM version](https://img.shields.io/npm/v/minecraft-protocol.svg)](http://npmjs.com/package/minecraft-protocol)
-[![Build Status](https://img.shields.io/circleci/project/PrismarineJS/node-minecraft-protocol/master.svg)](https://circleci.com/gh/PrismarineJS/node-minecraft-protocol)
-[![Join the chat at https://gitter.im/PrismarineJS/node-minecraft-protocol](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/PrismarineJS/node-minecraft-protocol)
+# node-minecraft-protocols
+[![Build Status](https://img.shields.io/circleci/project/deathcap/node-minecraft-protocols/master.svg)](https://circleci.com/gh/deathcap/node-minecraft-protocols)
+
+An experiment for multi-protocol support, based on [node-minecraft-protocol](https://github.com/PrismarineJS/node-minecraft-protocol)
+
+Differences so far:
+
+* Supports connecting to Forge servers using the `FML|HS` client handshake
+* Supports auto-negotiated version detection
+* Supports legacy ping packet (0xfe) on server-side
+* Uses native ES6 in Node.js, no babel/gulp
+
+
+original readme:
+
+---
 
 Parse and serialize minecraft packets, plus authentication and encryption.
 

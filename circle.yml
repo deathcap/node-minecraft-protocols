@@ -1,6 +1,6 @@
 machine:
   environment:
-    MC_SERVER_JAR_DIR: /home/ubuntu/node-minecraft-protocol/minecraft-server/
+    MC_SERVER_JAR_DIR: /home/ubuntu/node-minecraft-protocols/minecraft-server/
   node:
     version: 5
   java:
