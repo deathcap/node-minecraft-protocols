@@ -263,7 +263,8 @@ function fmlHandshakeStep(client, data, options)
   }
 }
 
-module.exports = function(client, options) {
+module.exports = function(client) {
+  var options = client.options;
   options.tagHost = '\0FML\0'; // passed to src/client/setProtocol.js, signifies client supports FML/Forge
 
   client.on('custom_payload', function(packet) {
