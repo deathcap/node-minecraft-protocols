@@ -48,6 +48,7 @@ class Client extends EventEmitter
   set version(newVersion) {
     let versionInfo;
     if (typeof newVersion === 'string') {
+      if (newVersion === '1.9') newVersion = '15w40b'; // TODO: remove hack, should call it 15w40b instead of 1.9? no such 'release version' of 1.9 yet (ambiguous)
       versionInfo = protocolVersions.versionsByMinecraftVersion[newVersion];
     } else if (typeof newVersion === 'number') {
       versionInfo = protocolVersions.latestVersionsByProtocolVersionCode[newVersion];
