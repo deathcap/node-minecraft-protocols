@@ -74,7 +74,35 @@ function writeProtocolSpecs(protocolSpecs)
   });
 }
 
+function writeProtocolVersions()
+{
+  const lookups = {};
+
+  // Lookup version info by release version, 1:1
+  lookups.versionsByMinecraftVersion = minecraft_data.versionsByMinecraftVersion;
+
+  // Lookup the latest version for a given protocol version code, (+ = post-netty, - = pre-netty)
+  const latestVersionsByProtocolVersionCode = {};
+  Object.keys(minecraft_data.postNettyVersionsByProtocolVersion).forEach((protocolVersion) => {
+    latestVersionsByProtocolVersionCode[protocolVersion] = minecraft_data.postNettyVersionsByProtocolVersion[protocolVersion][0];
+  });
+
+  Object.keys(minecraft_data.preNettyVersionsByProtocolVersion).forEach((protocolVersion) => {
+    latestVersionsByProtocolVersionCode[-protocolVersion] = minecraft_data.preNettyVersionsByProtocolVersion[protocolVersion][0];
+  });
+
+  lookups.latestVersionsByProtocolVersionCode = latestVersionsByProtocolVersionCode;
+
+  const json = JSON.stringify(lookups, null, '  ');
+  const filename = `src/protocol/protocolVersions.json`;
+  fs.writeFile(filename, json, (err) => {
+    if (err) console.log(`Failed to write ${filename}: ${err}`);
+  });
+
+  lookups.postNettyVersionsByProtocolVersion = minecraft_data.postNettyVersionsByProtocolVersion;
+}
+
 const protocolSpecs = createProtocolSpecs();
 //console.log(JSON.stringify(protocolSpecs));
 writeProtocolSpecs(protocolSpecs);
-
+writeProtocolVersions();
