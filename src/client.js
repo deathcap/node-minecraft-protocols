@@ -10,6 +10,8 @@ var states = require("./states");
 var createSerializer=require("./transforms/serializer").createSerializer;
 var createDeserializer=require("./transforms/serializer").createDeserializer;
 
+var protocolSpecs = require('./protocol');
+
 class Client extends EventEmitter
 {
   constructor(isServer,version) {
@@ -40,6 +42,16 @@ class Client extends EventEmitter
       var direction = this.isServer ? 'toServer' : 'toClient';
       this.packetsToParse[event] -= 1;
     });
+  }
+
+  set version(newVersion) {
+    if (!protocolSpecs[newVersion]) throw new Error(`no protocol specification for version: ${newVersion}`);
+
+    this._version = newVersion;
+  }
+
+  get version() {
+    return this._version;
   }
 
   get state(){
