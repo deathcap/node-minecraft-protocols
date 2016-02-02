@@ -4,7 +4,6 @@ var ping = require('../ping');
 var debug = require('../debug');
 var states = require('../states');
 var assert = require('assert');
-var minecraft_data = require('minecraft-data');
 var forgeHandshake = require('./forgeHandshake');
 
 module.exports = function(client, options) {
@@ -29,14 +28,9 @@ module.exports = function(client, options) {
     // servers add their own name (Spigot 1.8.8, Glowstone++ 1.8.9) so we cannot use it directly,
     // even though it is in a format accepted by minecraft-data. Instead, translate the protocol.
     // TODO: pre-Netty version support (uses overlapping version numbers, so would have to check versionName)
-    var versionInfos = minecraft_data.postNettyVersionsByProtocolVersion[protocolVersion];
-    if (!versionInfos && versionInfos.length < 1) throw new Error(`unsupported/unknown protocol version: ${protocolVersion}, update minecraft-data`);
-    var versionInfo = versionInfos[0]; // use newest
-    options.version = versionInfo.minecraftVersion;
-    options.protocolVersion = protocolVersion;
 
     // Reinitialize client object with new version TODO: move out of its constructor?
-    client.version = versionInfo.majorVersion;
+    client.version = protocolVersion;
     client.state = states.HANDSHAKING;
 
     if (response.modinfo && response.modinfo.type === 'FML') {

@@ -11,12 +11,8 @@ function ping(options, cb) {
   options.host = options.host || 'localhost';
   options.port = options.port || 25565;
   var optVersion = options.version || require("./version").defaultVersion;
-  var mcData=require("minecraft-data")(optVersion);
-  var version = mcData.version;
-  options.majorVersion = version.majorVersion;
-  options.protocolVersion = version.version;
 
-  var client = new Client(false,options.majorVersion);
+  var client = new Client(false, optVersion);
   client.on('error', function(err) {
     cb(err);
   });

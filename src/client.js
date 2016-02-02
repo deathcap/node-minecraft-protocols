@@ -10,6 +10,9 @@ var states = require("./states");
 var createSerializer=require("./transforms/serializer").createSerializer;
 var createDeserializer=require("./transforms/serializer").createDeserializer;
 
+var protocolSpecs = require('./protocol');
+var protocolVersions = require('./protocol/protocolVersions');
+
 class Client extends EventEmitter
 {
   constructor(isServer,version) {
@@ -40,6 +43,30 @@ class Client extends EventEmitter
       var direction = this.isServer ? 'toServer' : 'toClient';
       this.packetsToParse[event] -= 1;
     });
+  }
+
+  set version(newVersion) {
+    let versionInfo;
+    if (typeof newVersion === 'string') {
+      if (newVersion === '1.9') newVersion = '15w40b'; // TODO: remove hack, should call it 15w40b instead of 1.9? no such 'release version' of 1.9 yet (ambiguous)
+      versionInfo = protocolVersions.versionsByMinecraftVersion[newVersion];
+    } else if (typeof newVersion === 'number') {
+      versionInfo = protocolVersions.latestVersionsByProtocolVersionCode[newVersion];
+    }
+    if (!versionInfo) throw new Error(`unrecognized release or protocol version: ${newVersion}, update minecraft-data?`);
+
+    this.protocolVersion = versionInfo.version;
+
+    // currently, datasets are indexed by major version TODO: generalize
+    let dataVersion = versionInfo.majorVersion;
+
+    if (!protocolSpecs[dataVersion]) throw new Error(`no protocol specification for version: ${newVersion}`);
+
+    this._version = dataVersion;
+  }
+
+  get version() {
+    return this._version;
   }
 
   get state(){
