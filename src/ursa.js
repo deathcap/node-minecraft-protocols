@@ -1,6 +1,6 @@
 'use strict';
 
-var ursa;
+let ursa;
 try {
   ursa = require("ursa");
 } catch(e) {

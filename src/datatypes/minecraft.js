@@ -1,7 +1,7 @@
 'use strict';
 
-var nbt = require('prismarine-nbt');
-var UUID = require('uuid-1345');
+const nbt = require('prismarine-nbt');
+const UUID = require('uuid-1345');
 
 module.exports = {
   'UUID': [readUUID, writeUUID, 16],
@@ -19,7 +19,7 @@ function readUUID(buffer, offset) {
 }
 
 function writeUUID(value, buffer, offset) {
-  var buf=UUID.parse(value);
+  const buf=UUID.parse(value);
   buf.copy(buffer,offset);
   return offset + 16;
 }
@@ -73,11 +73,11 @@ function sizeOfRestBuffer(value) {
 }
 
 function readEntityMetadata(buffer, offset, info) {
-  var type = info.type;
-  var endVal = info.endVal;
-  var cursor = offset;
-  var metadata = [];
-  var item;
+  let type = info.type;
+  let endVal = info.endVal;
+  let cursor = offset;
+  const metadata = [];
+  let item;
   while(true) {
     item = buffer.readUInt8(cursor);
     if(item === endVal) {
@@ -86,16 +86,16 @@ function readEntityMetadata(buffer, offset, info) {
         size: cursor + 1 - offset
       };
     }
-    var results = this.read(buffer, cursor, type, {});
+    const results = this.read(buffer, cursor, type, {});
     metadata.push(results.value);
     cursor += results.size;
   }
 }
 
 function writeEntityMetadata(value, buffer, offset, info) {
-  var type = info.type;
-  var endVal = info.endVal;
-  var self = this;
+  let type = info.type;
+  let endVal = info.endVal;
+  const self = this;
   value.forEach(function(item) {
     offset = self.write(item, buffer, offset, type, {});
   });
@@ -104,9 +104,9 @@ function writeEntityMetadata(value, buffer, offset, info) {
 }
 
 function sizeOfEntityMetadata(value, info) {
-  var type = info.type;
-  var size = 1;
-  for(var i = 0; i < value.length; ++i) {
+  let type = info.type;
+  let size = 1;
+  for(let i = 0; i < value.length; ++i) {
     size += this.sizeOf(value[i], type, {});
   }
   return size;

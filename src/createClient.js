@@ -1,17 +1,17 @@
 'use strict';
 
-var Client = require('./client');
-var assert = require('assert');
+const Client = require('./client');
+const assert = require('assert');
 
-var encrypt = require('./client/encrypt');
-var keepalive = require('./client/keepalive');
-var compress = require('./client/compress');
-var caseCorrect = require('./client/caseCorrect');
-var setProtocol = require('./client/setProtocol');
-var play = require('./client/play');
-var tcp_dns = require('./client/tcp_dns');
-var forgeHandshake = require('./client/forgeHandshake');
-var autoVersion = require('./client/autoVersion');
+const encrypt = require('./client/encrypt');
+const keepalive = require('./client/keepalive');
+const compress = require('./client/compress');
+const caseCorrect = require('./client/caseCorrect');
+const setProtocol = require('./client/setProtocol');
+const play = require('./client/play');
+const tcp_dns = require('./client/tcp_dns');
+const forgeHandshake = require('./client/forgeHandshake');
+const autoVersion = require('./client/autoVersion');
 
 module.exports=createClient;
 
@@ -20,14 +20,14 @@ function createClient(options) {
   assert.ok(options.username, "username is required");
 
   // TODO: avoid setting default version if autoVersion is enabled
-  var optVersion = options.version || require("./version").defaultVersion;
-  var mcData=require("minecraft-data")(optVersion);
+  const optVersion = options.version || require("./version").defaultVersion;
+  const mcData=require("minecraft-data")(optVersion);
   if (!mcData) throw new Error(`unsupported protocol version: ${optVersion}`);
-  var version = mcData.version;
+  const version = mcData.version;
   options.majorVersion = version.majorVersion;
   options.protocolVersion = version.version;
 
-  var client = new Client(false, options.majorVersion);
+  const client = new Client(false, options.majorVersion);
 
   tcp_dns(client, options);
   if (options.forgeMods) forgeHandshake(client, options);

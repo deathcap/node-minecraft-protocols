@@ -1,8 +1,8 @@
 'use strict';
 
-var Client = require('./client');
-var Server = require('./server');
-var serializer = require("./transforms/serializer");
+const Client = require('./client');
+const Server = require('./server');
+const serializer = require("./transforms/serializer");
 
 module.exports = {
   Client: Client,

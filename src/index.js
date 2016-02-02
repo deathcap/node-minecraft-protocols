@@ -1,10 +1,10 @@
 'use strict';
 
-var Client = require('./client');
-var Server = require('./server');
-var serializer = require("./transforms/serializer");
-var createClient = require("./createClient");
-var createServer = require("./createServer");
+const Client = require('./client');
+const Server = require('./server');
+const serializer = require("./transforms/serializer");
+const createClient = require("./createClient");
+const createServer = require("./createServer");
 
 module.exports = {
   createClient: createClient,

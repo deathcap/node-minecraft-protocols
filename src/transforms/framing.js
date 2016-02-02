@@ -1,9 +1,9 @@
 'use strict';
 
-var readVarInt = require("protodef").types.varint[0];
-var writeVarInt = require("protodef").types.varint[1];
-var sizeOfVarInt = require("protodef").types.varint[2];
-var Transform = require("readable-stream").Transform;
+const readVarInt = require("protodef").types.varint[0];
+const writeVarInt = require("protodef").types.varint[1];
+const sizeOfVarInt = require("protodef").types.varint[2];
+const Transform = require("readable-stream").Transform;
 
 module.exports.createSplitter = function() {
   return new Splitter();
@@ -20,7 +20,7 @@ class Framer extends Transform {
 
   _transform(chunk, enc, cb) {
     const varIntSize=sizeOfVarInt(chunk.length);
-    var buffer = new Buffer(varIntSize + chunk.length);
+    const buffer = new Buffer(varIntSize + chunk.length);
     writeVarInt(chunk.length, buffer, 0);
     chunk.copy(buffer, varIntSize);
     this.push(buffer);
@@ -42,20 +42,20 @@ class Splitter extends Transform {
     if (this.recognizeLegacyPing && this.buffer[0] === LEGACY_PING_PACKET_ID) {
       // legacy_server_list_ping packet follows a different protocol format
       // prefix the encoded varint packet id for the deserializer
-      var header = new Buffer(sizeOfVarInt(LEGACY_PING_PACKET_ID));
+      const header = new Buffer(sizeOfVarInt(LEGACY_PING_PACKET_ID));
       writeVarInt(LEGACY_PING_PACKET_ID, header, 0);
-      var payload = this.buffer.slice(1); // remove 0xfe packet id
+      let payload = this.buffer.slice(1); // remove 0xfe packet id
       if (payload.length === 0) payload = new Buffer('\0'); // TODO: update minecraft-data to recognize a lone 0xfe, https://github.com/PrismarineJS/minecraft-data/issues/95
       this.push(Buffer.concat([header, payload]));
       return cb();
     }
 
-    var offset = 0;
+    let offset = 0;
 
-    var result = readVarInt(this.buffer, offset) || { error: "Not enough data" };
-    var size = result.size;
-    var value = result.value;
-    var error = result.error;
+    let result = readVarInt(this.buffer, offset) || { error: "Not enough data" };
+    let size = result.size;
+    let value = result.value;
+    let error = result.error;
     while (!error && this.buffer.length >= offset + size + value)
     {
       this.push(this.buffer.slice(offset + size, offset + size + value));

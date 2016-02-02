@@ -1,10 +1,10 @@
 'use strict';
 
-var readVarInt = require("protodef").types.varint[0];
-var writeVarInt = require("protodef").types.varint[1];
-var sizeOfVarInt = require("protodef").types.varint[2];
-var zlib = require("zlib");
-var Transform = require("readable-stream").Transform;
+const readVarInt = require("protodef").types.varint[0];
+const writeVarInt = require("protodef").types.varint[1];
+const sizeOfVarInt = require("protodef").types.varint[2];
+const zlib = require("zlib");
+const Transform = require("readable-stream").Transform;
 
 module.exports.createCompressor = function(threshold) {
   return new Compressor(threshold);
@@ -27,8 +27,8 @@ class Compressor extends Transform {
       zlib.deflate(chunk, (err, newChunk) => {
         if (err)
           return cb(err);
-        var buf = new Buffer(sizeOfVarInt(chunk.length) + newChunk.length);
-        var offset = writeVarInt(chunk.length, buf, 0);
+        const buf = new Buffer(sizeOfVarInt(chunk.length) + newChunk.length);
+        const offset = writeVarInt(chunk.length, buf, 0);
         newChunk.copy(buf, offset);
         this.push(buf);
         return cb();
@@ -36,8 +36,8 @@ class Compressor extends Transform {
     }
     else
     {
-      var buf = new Buffer(sizeOfVarInt(0) + chunk.length);
-      var offset = writeVarInt(0, buf, 0);
+      const buf = new Buffer(sizeOfVarInt(0) + chunk.length);
+      const offset = writeVarInt(0, buf, 0);
       chunk.copy(buf, offset);
       this.push(buf);
       return cb();
@@ -53,10 +53,10 @@ class Decompressor extends Transform {
   }
 
   _transform(chunk, enc, cb) {
-    var result  = readVarInt(chunk, 0);
-    var size = result.size;
-    var value = result.value;
-    var error = result.error;
+    const result = readVarInt(chunk, 0);
+    const size = result.size;
+    const value = result.value;
+    const error = result.error;
     if (error)
       return cb(error);
     if (value === 0)
