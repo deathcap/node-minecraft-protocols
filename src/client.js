@@ -11,6 +11,7 @@ var createSerializer=require("./transforms/serializer").createSerializer;
 var createDeserializer=require("./transforms/serializer").createDeserializer;
 
 var protocolSpecs = require('./protocol');
+var protocolVersions = require('./protocol/protocolVersions');
 
 class Client extends EventEmitter
 {
@@ -45,9 +46,20 @@ class Client extends EventEmitter
   }
 
   set version(newVersion) {
-    if (!protocolSpecs[newVersion]) throw new Error(`no protocol specification for version: ${newVersion}`);
+    let versionInfo;
+    if (typeof newVersion === 'string') {
+      versionInfo = protocolVersions.versionsByMinecraftVersion[newVersion];
+    } else if (typeof newVersion === 'number') {
+      versionInfo = protocolVersions.latestVersionsByProtocolVersionCode[newVersion];
+    }
+    if (!versionInfo) throw new Error(`unrecognized release or protocol version: ${newVersion}, update minecraft-data?`);
 
-    this._version = newVersion;
+    // currently, datasets are indexed by major version TODO: generalize
+    let dataVersion = versionInfo.majorVersion;
+
+    if (!protocolSpecs[dataVersion]) throw new Error(`no protocol specification for version: ${newVersion}`);
+
+    this._version = dataVersion;
   }
 
   get version() {
