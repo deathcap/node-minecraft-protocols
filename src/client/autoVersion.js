@@ -28,7 +28,6 @@ module.exports = function(client, options) {
     // servers add their own name (Spigot 1.8.8, Glowstone++ 1.8.9) so we cannot use it directly,
     // even though it is in a format accepted by minecraft-data. Instead, translate the protocol.
     // TODO: pre-Netty version support (uses overlapping version numbers, so would have to check versionName)
-    options.protocolVersion = protocolVersion;
 
     // Reinitialize client object with new version TODO: move out of its constructor?
     client.version = protocolVersion;

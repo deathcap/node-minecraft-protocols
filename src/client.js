@@ -54,6 +54,8 @@ class Client extends EventEmitter
     }
     if (!versionInfo) throw new Error(`unrecognized release or protocol version: ${newVersion}, update minecraft-data?`);
 
+    this.protocolVersion = versionInfo.version;
+
     // currently, datasets are indexed by major version TODO: generalize
     let dataVersion = versionInfo.majorVersion;
 

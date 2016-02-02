@@ -21,13 +21,8 @@ function createClient(options) {
 
   // TODO: avoid setting default version if autoVersion is enabled
   var optVersion = options.version || require("./version").defaultVersion;
-  var mcData=require("minecraft-data")(optVersion);
-  if (!mcData) throw new Error(`unsupported protocol version: ${optVersion}`);
-  var version = mcData.version;
-  options.majorVersion = version.majorVersion;
-  options.protocolVersion = version.version;
 
-  var client = new Client(false, options.majorVersion);
+  var client = new Client(false, optVersion);
 
   tcp_dns(client, options);
   if (options.forgeMods) forgeHandshake(client, options);
