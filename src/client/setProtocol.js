@@ -1,3 +1,5 @@
+'use strict';
+
 const states = require("../states");
 
 module.exports = function(client, options) {
@@ -12,7 +14,7 @@ module.exports = function(client, options) {
   }
 
   function next() {
-    var taggedHost = options.host;
+    let taggedHost = options.host;
     if (options.tagHost) taggedHost += options.tagHost;
 
     client.write('set_protocol', {
