@@ -11,21 +11,21 @@ module.exports = function(client, options) {
     } else {
       next();
     }
-  }
 
-  function next() {
-    let taggedHost = options.host;
-    if (options.tagHost) taggedHost += options.tagHost;
+    function next() {
+      let taggedHost = options.host;
+      if (client.tagHost) taggedHost += client.tagHost;
 
-    client.write('set_protocol', {
-      protocolVersion: options.protocolVersion,
-      serverHost: taggedHost,
-      serverPort: options.port,
-      nextState: 2
-    });
-    client.state = states.LOGIN;
-    client.write('login_start', {
-      username: client.username
-    });
+      client.write('set_protocol', {
+        protocolVersion: options.protocolVersion,
+        serverHost: taggedHost,
+        serverPort: options.port,
+        nextState: 2
+      });
+      client.state = states.LOGIN;
+      client.write('login_start', {
+        username: client.username
+      });
+    }
   }
 };

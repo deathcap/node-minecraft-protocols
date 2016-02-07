@@ -39,13 +39,13 @@ module.exports = function(client, options) {
     client.version = versionInfo.majorVersion;
     client.state = states.HANDSHAKING;
 
-    if (response.modinfo && response.modinfo.type === 'FML') {
-      // Use the list of Forge mods from the server ping, so client will match server
-      const forgeMods = response.modinfo.modList;
-      debug('Using forgeMods:',forgeMods);
-      options.forgeMods = forgeMods;
-      forgeHandshake(client, options);
+    // Let other plugins such as Forge/FML (modinfo) respond to the ping response
+    if (client.autoVersionHooks) {
+      client.autoVersionHooks.forEach((hook) => {
+        hook(response, client, options);
+      });
     }
+
     // Finished configuring client object, let connection proceed
     client.emit('connect_allowed');
   });

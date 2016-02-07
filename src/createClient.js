@@ -30,7 +30,6 @@ function createClient(options) {
   const client = new Client(false, options.majorVersion);
 
   tcp_dns(client, options);
-  if (options.forgeMods) forgeHandshake(client, options);
   caseCorrect(client, options);
   if (options.version === false) autoVersion(client, options);
   setProtocol(client, options);
