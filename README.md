@@ -5,9 +5,9 @@ An experiment for multi-protocol support, based on [node-minecraft-protocol](htt
 
 Differences so far:
 
-* Supports connecting to Forge servers using the `FML|HS` client handshake
-* Supports auto-negotiated version detection
-* Supports legacy ping packet (0xfe) on server-side
+* ~~Supports connecting to Forge servers using the `FML|HS` client handshake~~ - now possible instead with [nmp-forge](https://github.com/PrismarineJS/node-minecraft-protocol-forge)
+* ~~Supports auto-negotiated version detection~~ - merged
+* ~~Supports legacy ping packet (0xfe) on server-side~~ - merged
 * Uses native ES6 in Node.js, no babel/gulp
 
 
