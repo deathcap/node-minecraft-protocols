@@ -10,7 +10,6 @@ const caseCorrect = require('./client/caseCorrect');
 const setProtocol = require('./client/setProtocol');
 const play = require('./client/play');
 const tcp_dns = require('./client/tcp_dns');
-const forgeHandshake = require('./client/forgeHandshake');
 const autoVersion = require('./client/autoVersion');
 
 module.exports=createClient;

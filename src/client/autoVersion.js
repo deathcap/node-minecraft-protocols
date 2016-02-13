@@ -5,7 +5,6 @@ const debug = require('../debug');
 const states = require('../states');
 const assert = require('assert');
 const minecraft_data = require('minecraft-data');
-const forgeHandshake = require('./forgeHandshake');
 
 module.exports = function(client, options) {
   client.wait_connect = true; // don't let src/client/setProtocol proceed on socket 'connect' until 'connect_allowed'
