@@ -13,7 +13,7 @@ module.exports = {
 
 function readUUID(buffer, offset) {
   return {
-    value: UUID.stringify(buffer.slice(offset,16)),
+    value: UUID.stringify(buffer.slice(offset,16+offset)),
     size: 16
   };
 }
