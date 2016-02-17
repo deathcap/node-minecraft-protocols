@@ -1,3 +1,5 @@
+'use strict';
+
 const EventEmitter = require('events').EventEmitter;
 const debug = require('./debug');
 const compression = require('./transforms/compression');

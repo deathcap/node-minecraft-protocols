@@ -1,3 +1,5 @@
+'use strict';
+
 const nbt = require('prismarine-nbt');
 const UUID = require('uuid-1345');
 const zlib = require('zlib');
@@ -123,7 +125,9 @@ function sizeOfRestBuffer(value) {
   return value.length;
 }
 
-function readEntityMetadata(buffer, offset, {type,endVal}) {
+function readEntityMetadata(buffer, offset, info) {
+  let type = info.type;
+  let endVal = info.endVal;
   let cursor = offset;
   const metadata = [];
   let item;
@@ -143,7 +147,9 @@ function readEntityMetadata(buffer, offset, {type,endVal}) {
   }
 }
 
-function writeEntityMetadata(value, buffer, offset, {type,endVal}) {
+function writeEntityMetadata(value, buffer, offset, info) {
+  let type = info.type;
+  let endVal = info.endVal;
   const self = this;
   value.forEach(function(item) {
     offset = self.write(item, buffer, offset, type, {});
@@ -152,7 +158,8 @@ function writeEntityMetadata(value, buffer, offset, {type,endVal}) {
   return offset + 1;
 }
 
-function sizeOfEntityMetadata(value, {type}) {
+function sizeOfEntityMetadata(value, info) {
+  let type = info.type;
   let size = 1;
   for(let i = 0; i < value.length; ++i) {
     size += this.sizeOf(value[i], type, {});
