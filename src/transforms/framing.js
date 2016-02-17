@@ -1,4 +1,9 @@
-const [readVarInt, writeVarInt, sizeOfVarInt] = require("protodef").types.varint;
+'use strict';
+
+const readVarInt = require("protodef").types.varint[0];
+const writeVarInt = require("protodef").types.varint[1];
+const sizeOfVarInt = require("protodef").types.varint[2];
+const PartialReadError = require("protodef").utils.PartialReadError;
 const Transform = require("readable-stream").Transform;
 
 module.exports.createSplitter = function() {
@@ -50,7 +55,10 @@ class Splitter extends Transform {
     let value, size, error;
     let stop=false;
     try {
-      ({ value, size, error } = readVarInt(this.buffer, offset));
+      let result = readVarInt(this.buffer, offset);
+      size = result.size;
+      value = result.value;
+      error = result.error;
     }
     catch(e) {
       if(!(e.partialReadError)) {
@@ -64,7 +72,10 @@ class Splitter extends Transform {
       try {
         this.push(this.buffer.slice(offset + size, offset + size + value));
         offset += size + value;
-        ({value, size, error} = readVarInt(this.buffer, offset));
+        let result = readVarInt(this.buffer, offset);
+        size = result.size;
+        value = result.value;
+        error = result.error;
       }
       catch(e) {
         if(e.partialReadError) {

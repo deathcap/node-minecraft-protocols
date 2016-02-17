@@ -1,4 +1,8 @@
-const [readVarInt, writeVarInt, sizeOfVarInt] = require("protodef").types.varint;
+'use strict';
+
+const readVarInt = require("protodef").types.varint[0];
+const writeVarInt = require("protodef").types.varint[1];
+const sizeOfVarInt = require("protodef").types.varint[2];
 const zlib = require("zlib");
 const Transform = require("readable-stream").Transform;
 
@@ -11,8 +15,9 @@ module.exports.createDecompressor = function(threshold) {
 };
 
 class Compressor extends Transform {
-  constructor(compressionThreshold = -1) {
+  constructor(compressionThreshold) {
     super();
+    if (compressionThreshold === undefined) compressionThreshold = -1;
     this.compressionThreshold = compressionThreshold;
   }
 
@@ -41,13 +46,17 @@ class Compressor extends Transform {
 }
 
 class Decompressor extends Transform {
-  constructor(compressionThreshold = -1) {
+  constructor(compressionThreshold) {
     super();
+    if (compressionThreshold === undefined) compressionThreshold = -1;
     this.compressionThreshold = compressionThreshold;
   }
 
   _transform(chunk, enc, cb) {
-    const { size, value, error } = readVarInt(chunk, 0);
+    const result = readVarInt(chunk, 0);
+    const size = result.size;
+    const value = result.value;
+    const error = result.error;
     if (error)
       return cb(error);
     if (value === 0)

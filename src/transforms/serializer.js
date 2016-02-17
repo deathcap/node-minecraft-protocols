@@ -1,3 +1,5 @@
+'use strict';
+
 const ProtoDef = require("protodef").ProtoDef;
 const Serializer = require("protodef").Serializer;
 const Parser = require("protodef").Parser;
@@ -25,14 +27,35 @@ function createProtocol(state,direction,version,customPackets)
   return proto;
 }
 
-function createSerializer({ state = states.HANDSHAKING, isServer = false , version,customPackets} = {})
+function createSerializer(opts)
 {
-  return new Serializer(createProtocol(state,!isServer ? "toServer" : "toClient",version,customPackets),"packet");
+  opts = opts || {};
+  const state = opts.state !== undefined ? opts.state : states.HANDSHAKING;
+  const isServer = opts.isServer !== undefined ? opts.isServer : false;
+  const version = opts.version;
+  const customPackets = opts.customPackets;
+
+  const mcData=require("minecraft-data")(version);
+  const direction = !isServer ? 'toServer' : 'toClient';
+  const packets = mcData.protocol.states[state][direction];
+  const proto=createProtocol(mcData.protocol.types,packets,customPackets);
+  return new Serializer(proto,"packet");
 }
 
-function createDeserializer({ state = states.HANDSHAKING, isServer = false,version,customPackets } = {})
+function createDeserializer(opts)
 {
-  return new Parser(createProtocol(state,isServer ? "toServer" : "toClient",version,customPackets),"packet");
+  opts = opts || {};
+  const state = opts.state !== undefined ? opts.state : states.HANDSHAKING;
+  const isServer = opts.isServer !== undefined ? opts.isServer : false;
+  const packetsToParse = opts.packetsToParse !== undefined ? opts.packetsToParse : {"packet": true};
+  const version = opts.version;
+  const customPackets = opts.customPackets;
+
+  const mcData=require("minecraft-data")(version);
+  const direction = isServer ? "toServer" : "toClient";
+  const packets = mcData.protocol.states[state][direction];
+  const proto=createProtocol(mcData.protocol.types,packets);
+  return new Parser(proto,"packet",customPackets);
 }
 
 module.exports = {

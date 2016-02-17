@@ -1,3 +1,5 @@
+'use strict';
+
 const ping = require('../ping');
 const debug = require('../debug');
 const states = require('../states');
