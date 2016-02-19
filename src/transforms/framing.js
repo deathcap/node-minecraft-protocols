@@ -3,6 +3,7 @@
 const readVarInt = require("protodef").types.varint[0];
 const writeVarInt = require("protodef").types.varint[1];
 const sizeOfVarInt = require("protodef").types.varint[2];
+const PartialReadError = require("protodef").utils.PartialReadError;
 const Transform = require("readable-stream").Transform;
 
 module.exports.createSplitter = function() {
@@ -51,19 +52,38 @@ class Splitter extends Transform {
     }
 
     let offset = 0;
-
-    let result = readVarInt(this.buffer, offset) || { error: "Not enough data" };
-    let size = result.size;
-    let value = result.value;
-    let error = result.error;
-    while (!error && this.buffer.length >= offset + size + value)
-    {
-      this.push(this.buffer.slice(offset + size, offset + size + value));
-      offset += size + value;
-      result = readVarInt(this.buffer, offset) || { error: "Not enough data" };
+    let value, size, error;
+    let stop=false;
+    try {
+      let result = readVarInt(this.buffer, offset);
       size = result.size;
       value = result.value;
       error = result.error;
+    }
+    catch(e) {
+      if(!(e instanceof PartialReadError)) {
+        throw e;
+      }
+      else
+        stop=true;
+    }
+    if(!stop) while (this.buffer.length >= offset + size + value)
+    {
+      try {
+        this.push(this.buffer.slice(offset + size, offset + size + value));
+        offset += size + value;
+        let result = readVarInt(this.buffer, offset);
+        size = result.size;
+        value = result.value;
+        error = result.error;
+      }
+      catch(e) {
+        if(e instanceof PartialReadError) {
+          break;
+        }
+        else
+          throw e;
+      }
     }
     this.buffer = this.buffer.slice(offset);
     return cb();

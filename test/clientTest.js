@@ -48,7 +48,7 @@ mc.supportedVersions.forEach(function(supportedVersion) {
         if(err)
           return done(err);
         mc.ping({
-          version: version.majorVersion
+          version: version.minecraftVersion
         }, function(err, results) {
           if(err) return done(err);
           assert.ok(results.latency >= 0);
@@ -74,7 +74,7 @@ mc.supportedVersions.forEach(function(supportedVersion) {
         var client = mc.createClient({
           username: process.env.MC_USERNAME,
           password: process.env.MC_PASSWORD,
-          version: version.majorVersion
+          version: version.minecraftVersion
         });
         var lineListener = function(line) {
           var match = line.match(/\[Server thread\/INFO\]: <(.+?)> (.+)/);
@@ -112,7 +112,7 @@ mc.supportedVersions.forEach(function(supportedVersion) {
           return done(err);
         var client = mc.createClient({
           username: 'Player',
-          version: version.majorVersion
+          version: version.minecraftVersion
         });
         var lineListener = function(line) {
           var match = line.match(/\[Server thread\/INFO\]: <(.+?)> (.+)/);
@@ -161,7 +161,7 @@ mc.supportedVersions.forEach(function(supportedVersion) {
           return done(err);
         var client = mc.createClient({
           username: 'Player',
-          version: version.majorVersion
+          version: version.minecraftVersion
         });
         var gotKicked = false;
         client.on('disconnect', function(packet) {
@@ -180,7 +180,7 @@ mc.supportedVersions.forEach(function(supportedVersion) {
           return done(err);
         var client = mc.createClient({
           username: 'Player',
-          version: version.majorVersion
+          version: version.minecraftVersion
         });
         client.on("login", function(packet) {
           client.write("chat", {

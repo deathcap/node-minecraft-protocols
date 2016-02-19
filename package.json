@@ -9,7 +9,7 @@
   },
   "scripts": {
     "prepublish": "require-self",
-    "test": "mocha --recursive --require intelli-espower-loader --reporter spec"
+    "test": "mocha --recursive --reporter spec"
   },
   "keywords": [
     "minecraft",
@@ -37,9 +37,9 @@
   },
   "dependencies": {
     "buffer-equal": "1.0.0",
-    "minecraft-data": "^0.19.1",
+    "minecraft-data": "^0.20.2",
     "prismarine-nbt": "0.2.0",
-    "protodef": "0.2.5",
+    "protodef": "0.3.0",
     "readable-stream": "^2.0.5",
     "ursa-purejs": "0.0.3",
     "uuid-1345": "^0.99.6",

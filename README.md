@@ -3,12 +3,9 @@
 
 An experiment for multi-protocol support, based on [node-minecraft-protocol](https://github.com/PrismarineJS/node-minecraft-protocol)
 
-Differences so far:
+Differences:
 
-* ~~Supports connecting to Forge servers using the `FML|HS` client handshake~~ - now possible instead with [nmp-forge](https://github.com/PrismarineJS/node-minecraft-protocol-forge)
-* ~~Supports auto-negotiated version detection~~ - merged
-* ~~Supports legacy ping packet (0xfe) on server-side~~ - merged
-* Uses native ES6 in Node.js, no babel/gulp
+* Uses native ES6 (requires Node.js v4.2.4+ or Chrome 48+), no babel/gulp
 
 
 original readme:
@@ -19,7 +16,7 @@ Parse and serialize minecraft packets, plus authentication and encryption.
 
 ## Features
 
- * Supports Minecraft version 1.8.8 and 1.9 (15w40b)
+ * Supports Minecraft version 1.7.10, 1.8.8 and 1.9 (15w40b and 16w05b)
  * Parses all packets and emits events with packet fields as JavaScript
    objects.
  * Send a packet by supplying fields as a JavaScript object.

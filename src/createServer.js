@@ -34,7 +34,7 @@ function createServer(options) {
 
   const serverKey = ursa.generatePrivateKey(1024);
 
-  const server = new Server(version.majorVersion);
+  const server = new Server(version.minecraftVersion);
   server.motd = options.motd || "A Minecraft server";
   server.maxPlayers = options['max-players'] || 20;
   server.playerCount = 0;
@@ -255,8 +255,10 @@ function createServer(options) {
       if(onlineMode == false || isException) {
         client.uuid = nameToMcOfflineUUID(client.username);
       }
-      client.write('compress', { threshold: 256 }); // Default threshold is 256
-      client.compressionThreshold = 256;
+      if (version.version >= 27) { // 14w28a (27) added whole-protocol compression (http://wiki.vg/Protocol_History#14w28a), earlier versions per-packet compressed TODO: refactor into minecraft-data
+        client.write('compress', { threshold: 256 }); // Default threshold is 256
+        client.compressionThreshold = 256;
+      }
       client.write('success', {uuid: client.uuid, username: client.username});
       client.state = states.PLAY;
       loggedIn = true;
