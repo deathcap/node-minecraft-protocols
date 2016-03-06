@@ -1,5 +1,35 @@
 # History
 
+## 0.19.4
+
+* fix spawn_painting in 1.9
+
+## 0.19.3
+
+* update mcdata again : u8 not byte
+
+## 0.19.2
+
+* some fixes in 1.9 protocol
+
+## 0.19.1
+
+* update mcdata, support 1.9 release
+
+## 0.19.0
+
+* update minecraft-data, support 1.9-pre4
+
+## 0.18.3
+
+* update protodef and minecraft-data for new protocol schema
+
+## 0.18.2
+
+* update protodef
+* custom packets
+* fix tab_complete in 1.9
+
 ## 0.18.1
 
 * update protodef dependency

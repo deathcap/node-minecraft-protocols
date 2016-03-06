@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # node-minecraft-protocols
 [![Build Status](https://img.shields.io/circleci/project/deathcap/node-minecraft-protocols/master.svg)](https://circleci.com/gh/deathcap/node-minecraft-protocols)
 
@@ -11,12 +12,18 @@ Differences:
 original readme:
 
 ---
+=======
+# minecraft protocol
+[![NPM version](https://img.shields.io/npm/v/minecraft-protocol.svg)](https://www.npmjs.com/package/minecraft-protocol)
+[![Build Status](https://img.shields.io/circleci/project/PrismarineJS/node-minecraft-protocol/master.svg)](https://circleci.com/gh/PrismarineJS/node-minecraft-protocol)
+[![Join the chat at https://gitter.im/PrismarineJS/node-minecraft-protocol](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/PrismarineJS/node-minecraft-protocol)
+>>>>>>> node-minecraft-protocol-es6
 
 Parse and serialize minecraft packets, plus authentication and encryption.
 
 ## Features
 
- * Supports Minecraft version 1.7.10, 1.8.8 and 1.9 (15w40b and 16w05b)
+ * Supports Minecraft version 1.7.10, 1.8.8 and 1.9 (15w40b and 1.9)
  * Parses all packets and emits events with packet fields as JavaScript
    objects.
  * Send a packet by supplying fields as a JavaScript object.
@@ -126,7 +133,7 @@ URSA, an optional dependency, should improve login times
 for servers. However, it can be somewhat complicated to install.
 
 Follow the instructions from
-[Obvious/ursa](https://github.com/Obvious/ursa)
+[Obvious/ursa](https://github.com/quartzjer/ursa)
 
 ## Documentation
 

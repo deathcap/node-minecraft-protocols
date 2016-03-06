@@ -61,7 +61,7 @@ class Splitter extends Transform {
       error = result.error;
     }
     catch(e) {
-      if(!(e instanceof PartialReadError)) {
+      if(!(e.partialReadError)) {
         throw e;
       }
       else
@@ -78,7 +78,7 @@ class Splitter extends Transform {
         error = result.error;
       }
       catch(e) {
-        if(e instanceof PartialReadError) {
+        if(e.partialReadError) {
           break;
         }
         else

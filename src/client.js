@@ -12,8 +12,9 @@ const createDeserializer=require("./transforms/serializer").createDeserializer;
 
 class Client extends EventEmitter
 {
-  constructor(isServer,version) {
+  constructor(isServer,version,customPackets) {
     super();
+    this.customPackets=customPackets;
     this.version=version;
     this.isServer = !!isServer;
     this.splitter=framing.createSplitter();
@@ -48,9 +49,9 @@ class Client extends EventEmitter
 
 
   setSerializer(state) {
-    this.serializer = createSerializer({ isServer:this.isServer, version:this.version, state: state});
+    this.serializer = createSerializer({ isServer:this.isServer, version:this.version, state: state,customPackets:this.customPackets});
     this.deserializer = createDeserializer({ isServer:this.isServer, version:this.version, state: state, packetsToParse:
-      this.packetsToParse});
+      this.packetsToParse,customPackets:this.customPackets});
 
     this.splitter.recognizeLegacyPing = state === states.HANDSHAKING;
 
@@ -60,6 +61,10 @@ class Client extends EventEmitter
       const serializerDirection = !this.isServer ? 'toServer' : 'toClient';
       e.field = [this.protocolState, serializerDirection].concat(parts).join(".");
       e.message = `Serialization error for ${e.field} : ${e.message}`;
+      if(!this.compressor)
+        this.serializer.pipe(this.framer);
+      else
+        this.serializer.pipe(this.compressor);
       this.emit('error',e);
     });
 
@@ -70,6 +75,10 @@ class Client extends EventEmitter
       const deserializerDirection = this.isServer ? 'toServer' : 'toClient';
       e.field = [this.protocolState, deserializerDirection].concat(parts).join(".");
       e.message = `Deserialization error for ${e.field} : ${e.message}`;
+      if(!this.compressor)
+        this.splitter.pipe(this.deserializer);
+      else
+        this.decompressor.pipe(this.deserializer);
       this.emit('error',e);
     });
 

@@ -7,13 +7,14 @@ const states = require("./states");
 
 class Server extends EventEmitter
 {
-  constructor(version) {
+  constructor(version,customPackets) {
     super();
     this.version=version;
     this.socketServer=null;
     this.cipher=null;
     this.decipher=null;
     this.clients={};
+    this.customPackets=customPackets;
   }
 
   listen(port, host) {
@@ -21,7 +22,7 @@ class Server extends EventEmitter
     let nextId = 0;
     self.socketServer = net.createServer();
     self.socketServer.on('connection', socket => {
-      const client = new Client(true,this.version);
+      const client = new Client(true,this.version,this.customPackets);
       client._end = client.end;
       client.end = function end(endReason) {
         endReason='{"text":"'+endReason+'"}';
