@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # node-minecraft-protocols
 [![Build Status](https://img.shields.io/circleci/project/deathcap/node-minecraft-protocols/master.svg)](https://circleci.com/gh/deathcap/node-minecraft-protocols)
 

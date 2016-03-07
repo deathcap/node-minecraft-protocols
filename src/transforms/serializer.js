@@ -35,10 +35,8 @@ function createSerializer(opts)
   const version = opts.version;
   const customPackets = opts.customPackets;
 
-  const mcData=require("minecraft-data")(version);
   const direction = !isServer ? 'toServer' : 'toClient';
-  const packets = mcData.protocol.states[state][direction];
-  const proto=createProtocol(mcData.protocol.types,packets,customPackets);
+  const proto=createProtocol(state,direction,version,customPackets);
   return new Serializer(proto,"packet");
 }
 
@@ -51,10 +49,8 @@ function createDeserializer(opts)
   const version = opts.version;
   const customPackets = opts.customPackets;
 
-  const mcData=require("minecraft-data")(version);
   const direction = isServer ? "toServer" : "toClient";
-  const packets = mcData.protocol.states[state][direction];
-  const proto=createProtocol(mcData.protocol.types,packets);
+  const proto=createProtocol(state,direction,version,customPackets);
   return new Parser(proto,"packet",customPackets);
 }
 
